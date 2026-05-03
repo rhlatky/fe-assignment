@@ -1,9 +1,32 @@
 .c-offer-card {
+    --offer-card-padding: 0;
+    --offer-card-radius: 0;
+    --offer-card-content-gap: var(--space-md);
+    --offer-card-content-max-width: none;
+    --offer-card-description-max-width: none;
+    --offer-card-title-size: 3.2rem;
+    --offer-card-title-line-height: 125%;
+    --offer-card-description-size: 1.4rem;
+    --offer-card-description-line-height: 1.4;
+    --offer-card-button-text-size: 1.5rem;
+    --offer-card-button-min-height: 4.2rem;
+    --offer-card-image-position: center;
+    --offer-card-button-padding: 1rem 2rem;
+
+    display: flex;
+    flex-direction: column;
     position: relative;
     overflow: hidden;
+    padding: var(--offer-card-padding);
 }
 
 .c-offer-card__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--offer-card-image-position);
+    border-radius: var(--offer-card-radius);
     position: absolute;
     inset: 0;
 }
@@ -11,14 +34,19 @@
 .c-offer-card__overlay {
     position: absolute;
     inset: 0;
+    border-radius: var(--offer-card-radius);
 }
 
 .c-offer-card__content {
+    flex: 1;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-end;
+    gap: var(--offer-card-content-gap);
+    max-width: var(--offer-card-content-max-width);
+    padding: 0;
     color: #fff;
 }
 
@@ -27,6 +55,8 @@
     gap: var(--space-xs);
     align-items: center;
     justify-content: space-between;
+    min-height: var(--offer-card-button-min-height);
+    padding: var(--offer-card-button-padding);
     color: #fff;
     cursor: pointer;
     background: var(--c-accent);
@@ -45,6 +75,7 @@
 
 .c-offer-card__text {
     font-family: var(--f-display);
+    font-size: var(--offer-card-button-text-size);
     font-weight: 700;
     white-space: nowrap;
 }
@@ -53,4 +84,31 @@
     flex-shrink: 0;
     width: 2rem;
     height: 2rem;
+}
+
+.c-offer-card :is(h1, h2) {
+    margin: 0;
+    font-size: var(--offer-card-title-size);
+    line-height: var(--offer-card-title-line-height);
+    font-weight: 800;
+}
+
+.c-offer-card__content__description {
+    max-width: var(--offer-card-description-max-width);
+    margin: 0;
+    font-size: var(--offer-card-description-size);
+    line-height: var(--offer-card-description-line-height);
+    font-weight: 400;
+}
+
+@media (min-width: 480px) {
+    .c-offer-card {
+        --offer-card-description-max-width: 404px;
+    }
+}
+
+@media (min-width: 768px) {
+    .c-offer-card {
+        --offer-card-description-max-width: 478px;
+    }
 }

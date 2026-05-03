@@ -5,7 +5,13 @@
 
 .l-solution {
     &__banner {
-        margin-bottom: 10rem;
+        margin-bottom: 0;
+    }
+
+    @include mq-up(sm) {
+        &__banner {
+            margin-bottom: 10rem;
+        }
     }
 }
 

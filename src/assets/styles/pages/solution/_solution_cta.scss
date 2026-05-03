@@ -1,55 +1,48 @@
 @use "./../../init" as *;
 
 .c-solution-cta {
+    --offer-card-padding: 0 var(--space-md) var(--space-md);
+    --offer-card-content-max-width: 42rem;
+    --offer-card-image-position: 60%;
+
     width: 100%;
     height: 54rem;
-    border-radius: var(--r-md);
-
-    &__image {
-        background-color: var(--c-bg);
-        background-position: center;
-        background-size: cover;
-        border-radius: var(--r-md);
-    }
 
     &__overlay {
         background: linear-gradient(13.06deg, rgb(0 0 0 / 64%) 18.62%, rgb(0 0 0 / 0%) 100%);
-        border-radius: var(--r-md);
     }
 
     &__content {
-        gap: var(--space-md);
         height: 100%;
-        padding: var(--space-xl);
-
-        &__title {
-            margin: 0;
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.2;
-        }
 
         &__description {
-            margin: 0;
-            font-size: 1.6rem;
-            font-weight: 400;
-            line-height: 1.6;
-
             strong {
                 font-weight: 800;
             }
         }
+    }
 
-        &__button {
-            padding: 1.6rem 2rem;
+    @include mq-up(sm) {
+        --offer-card-title-size: 3.5rem;
+        --offer-card-title-line-height: 1.2;
+        --offer-card-description-size: 1.6rem;
+        --offer-card-description-line-height: 1.6;
+        --offer-card-padding: var(--space-lg) var(--space-md) var(--space-md);
+        --offer-card-radius: var(--r-md);
 
-            .sc-text {
-                font-size: 1.6rem;
-            }
-        }
+        border-radius: var(--r-md);
+    }
+
+    @include mq-up(md) {
+        --offer-card-title-size: 3.5rem;
+        --offer-card-title-line-height: 1.2;
+        --offer-card-button-text-size: 1.6rem;
+        --offer-card-padding: var(--space-xl) var(--space-xl);
     }
 
     @include mq-up(lg) {
+        --offer-card-description-max-width: 45rem;
+
         width: 64rem;
 
         &__overlay {

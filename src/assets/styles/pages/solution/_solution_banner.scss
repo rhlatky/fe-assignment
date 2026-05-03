@@ -2,52 +2,25 @@
 
 .c-solution-banner {
     --banner-min-height: 42rem;
-    --banner-content-max-width: 52rem;
-    --banner-content-padding: var(--space-md);
-    --banner-content-gap: 2rem;
-    --banner-title-size: 3.2rem;
-    --banner-title-line-height: 125%;
-    --banner-description-max-width: none;
-    --banner-button-text-size: 1.5rem;
+    --offer-card-padding: var(--space-md);
+    --offer-card-content-max-width: 45rem;
+    --offer-card-content-gap: 2rem;
+    --offer-card-image-position: 35%;
 
     min-height: var(--banner-min-height);
 
-    &__image {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: 35%;
-        border-radius: inherit;
-    }
-
     &__overlay {
         background: linear-gradient(30.33deg, rgba(0, 0, 0, 0.64) 24.32%, rgba(0, 0, 0, 0) 52.32%);
-        border-radius: 0;
     }
 
     &__content {
-        gap: var(--banner-content-gap);
-        min-height: var(--banner-min-height);
-        max-width: var(--banner-content-max-width);
-        padding: var(--banner-content-padding);
-
         &__title {
             width: auto;
             max-width: 15ch;
-            margin: 0;
-            font-size: var(--banner-title-size);
-            font-weight: 800;
-            line-height: var(--banner-title-line-height);
         }
 
         &__description {
             width: auto;
-            max-width: var(--banner-description-max-width);
-            margin: 0;
-            font-size: 1.4rem;
-            font-weight: 400;
-            line-height: 1.4;
             letter-spacing: 0;
             vertical-align: middle;
 
@@ -59,52 +32,52 @@
                 vertical-align: middle;
             }
         }
-
-        &__button {
-            min-height: 4.2rem;
-            padding: 1rem 2rem;
-
-            .sb-text {
-                font-size: var(--banner-button-text-size);
-            }
-        }
     }
 
     @include mq-up(sm) {
         --banner-min-height: 48rem;
-        --banner-content-padding: var(--space-lg) var(--space-md);
-        --banner-content-gap: var(--space-md);
-        --banner-title-size: 4rem;
-        --banner-description-max-width: 404px;
+        --offer-card-padding: var(--space-lg) var(--space-md);
+        --offer-card-content-gap: var(--space-md);
+        --offer-card-title-size: 4rem;
+        --offer-card-radius: var(--r-md);
 
         border-radius: var(--r-md);
     }
 
     @include mq-up(md) {
         --banner-min-height: 52rem;
-        --banner-content-padding: calc(var(--space-xl) + var(--space-sm)) var(--space-xl);
-        --banner-content-gap: var(--space-lg);
-        --banner-title-size: 4.6rem;
-        --banner-title-line-height: 1.15;
-        --banner-description-max-width: 478px;
-        --banner-button-text-size: 1.6rem;
+        --offer-card-padding: calc(var(--space-xl) + var(--space-sm)) var(--space-xl);
+        --offer-card-content-gap: var(--space-lg);
+        --offer-card-title-size: 4.6rem;
+        --offer-card-title-line-height: 1.15;
+        --offer-card-button-text-size: 1.6rem;
 
         &__overlay {
             background: linear-gradient(85.28deg, rgba(0, 0, 0, 0.64) 22.49%, rgba(0, 0, 0, 0) 59.21%);
-            border-radius: 0.8rem;
-        }
-
-        &__content {
-            justify-content: center;
         }
     }
 
     @include mq-up(lg) {
+        --banner-min-height: 56.9rem;
+        --offer-card-padding: 12.8rem 9.7rem;
+        --offer-card-content-gap: var(--space-lg);
+        --offer-card-description-max-width: 52rem;
+        --offer-card-title-size: 5.2rem;
+        --offer-card-title-line-height: 1.25;
+        --offer-card-button-min-height: 5.2rem;
+        --offer-card-button-padding: 1.6rem 2rem;
 
         border-radius: var(--r-md);
 
-        &__image {
-            border-radius: var(--r-md);
+        &__content {
+            &__title {
+                width: 52rem;
+                max-width: 52rem;
+            }
+
+            &__button {
+                width: 24.2rem;
+            }
         }
     }
 }
