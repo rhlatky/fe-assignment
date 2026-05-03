@@ -8,3 +8,10 @@
         margin-bottom: 10rem;
     }
 }
+
+@include mq-down(sm) {
+    .l-container--flush-mobile {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}

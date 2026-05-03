@@ -9,16 +9,29 @@
     // project colors
     --c-font: var(--c-black);
     --c-bg: #f5f5f5;
+    --c-accent: #dd1969;
+    --c-accent-hover: #c01559;
+    --c-accent-active: #a01249;
 
     // sizes
     --s-container-padding: 2rem;
+    --space-xs: 0.8rem;
+    --space-sm: 1.6rem;
+    --space-md: 2.4rem;
+    --space-lg: 3.2rem;
+    --space-xl: 4.8rem;
+
+    // radii
+    --r-sm: 0.4rem;
+    --r-md: 0.8rem;
+    --r-lg: 1.6rem;
 
     // fonts
-    --f-primary: system-ui, avenir, helvetica, arial, sans-serif;
+    --f-primary: "DM Sans", system-ui, sans-serif;
+    --f-display: "Wix Madefor Display", system-ui, sans-serif;
 }
 
 body {
-    min-width: 36rem;
     min-height: 100dvh;
     overflow-x: hidden;
     font-family: var(--f-primary);
@@ -30,6 +43,15 @@ body {
     text-rendering: optimizelegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--f-display);
 }
 
 .l-container {

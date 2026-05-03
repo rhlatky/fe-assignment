@@ -9,18 +9,24 @@
         position: sticky;
         top: 0;
         z-index: 100;
-        padding: 2.4rem 0;
+        padding: var(--space-md) 0;
         background: url("../../images/gradient.jpg") center/cover no-repeat;
         border-bottom: none;
     }
 
     &__main {
         flex: 1;
-        padding: 3.2rem 0;
+        padding: 0;
+    }
+
+    @include mq-up(sm) {
+        &__main {
+            padding: var(--space-lg) 0;
+        }
     }
 
     &__footer {
-        padding: 1.6rem 0;
+        padding: var(--space-sm) 0;
         background-color: var(--c-white);
         border-top: 1px solid var(--c-border);
     }

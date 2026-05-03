@@ -1,1 +1,14 @@
+@use "sass:map";
 @use "./variables" as *;
+
+@mixin mq-up($breakpoint) {
+    @media (min-width: map.get($breakpoints, $breakpoint)) {
+        @content;
+    }
+}
+
+@mixin mq-down($breakpoint) {
+    @media (max-width: calc(map.get($breakpoints, $breakpoint) - 1px)) {
+        @content;
+    }
+}

@@ -4,14 +4,24 @@
 
 .c-solution-content {
     display: flex;
-    gap: 0 2.4rem;
+    flex-direction: column;
+    gap: var(--space-md);
 
     &__cta {
-        width: 64rem;
+        width: 100%;
     }
 
     &__products {
         flex: 1;
         min-width: 0;
+    }
+
+    @include mq-up(lg) {
+        flex-direction: row;
+        gap: 0 var(--space-md);
+
+        &__cta {
+            width: 64rem;
+        }
     }
 }

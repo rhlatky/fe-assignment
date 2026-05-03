@@ -1,5 +1,7 @@
 import { html } from "lit-html";
 import { loadData } from "../dataLoader.js";
+import { renderSolutionBanner } from "../sections/solutionBanner.js";
+import { renderSolutionCta } from "../sections/solutionCta.js";
 
 /**
  * Solution Page
@@ -17,73 +19,6 @@ const handleBannerClick = () => {
     // TODO: Navigate to products or filter
 };
 
-// Solution main banner
-const solutionBanner = (banner) => html`
-    <div class="c-solution-banner">
-        <div class="c-solution-banner__image"></div>
-        <div class="c-solution-banner__overlay"></div>
-        <div class="c-solution-banner__content">
-            <h1 class="c-solution-banner__content__title">${banner.title}</h1>
-            <div class="c-solution-banner__content__description">${banner.description}</div>
-            <button class="c-solution-banner__content__button" @click=${() => handleBannerClick()}>
-                <span class="sb-text">${banner.ctaText}</span>
-                <svg
-                    class="sb-icon"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        d="M4.16663 10H15.8333M15.8333 10L9.99996 4.16669M15.8333 10L9.99996 15.8334"
-                        stroke="currentColor"
-                        stroke-width="1.67"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    />
-                </svg>
-            </button>
-        </div>
-    </div>
-`;
-
-// Solution CTA section
-const solutionCta = (ctaBanner) => html`
-    <div class="c-solution-cta">
-        <div class="c-solution-cta__image"></div>
-
-        <div class="c-solution-cta__overlay"></div>
-
-        <div class="c-solution-cta__content">
-            <h2 class="c-solution-cta__content__title">${ctaBanner.title}</h2>
-
-            <div class="c-solution-cta__content__description">${ctaBanner.description}</div>
-
-            <button class="c-solution-cta__content__button" @click=${() => handleCtaClick()}>
-                <span class="sc-text">${ctaBanner.ctaText}</span>
-
-                <svg
-                    class="sc-icon"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        d="M4.16663 10H15.8333M15.8333 10L9.99996 4.16669M15.8333 10L9.99996 15.8334"
-                        stroke="currentColor"
-                        stroke-width="1.67"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    />
-                </svg>
-            </button>
-        </div>
-    </div>
-`;
-
 // Main page template
 export const renderSolutionPage = (data) => {
     if (!data) {
@@ -98,14 +33,16 @@ export const renderSolutionPage = (data) => {
     return html`
         <div class="l-solution">
             <div class="l-solution__banner">
-                <div class="l-container">${data.banner ? solutionBanner(data.banner) : html``}</div>
+                <div class="l-container l-container--flush-mobile">
+                    ${data.banner ? renderSolutionBanner(data.banner, handleBannerClick) : html``}
+                </div>
             </div>
 
             <div class="l-solution__content">
                 <div class="l-container is-shorter">
                     <div class="c-solution-content">
                         <div class="c-solution-content__cta">
-                            ${data.ctaBanner ? solutionCta(data.ctaBanner) : html``}
+                            ${data.ctaBanner ? renderSolutionCta(data.ctaBanner, handleCtaClick) : html``}
                         </div>
 
                         <div class="c-solution-content__products"></div>
