@@ -1,6 +1,7 @@
 import { html } from "lit-html";
 import { loadData } from "../dataLoader.js";
 import { renderSolutionBanner } from "../sections/solutionBanner.js";
+import { renderSolutionCategories } from "../sections/solutionCategories.js";
 import { renderSolutionCta } from "../sections/solutionCta.js";
 import { renderSolutionProducts } from "../sections/solutionProducts.js";
 
@@ -55,7 +56,7 @@ export const renderSolutionPage = (data) => {
 
             <div class="l-solution__categories">
                 <div class="l-container">
-                    <div class="c-solution-categories"></div>
+                    ${renderSolutionCategories(data.categories)}
                 </div>
             </div>
         </div>

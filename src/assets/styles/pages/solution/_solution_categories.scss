@@ -1,0 +1,67 @@
+@use "./../../init" as *;
+
+.c-solution-categories {
+    --category-card-height: 40.4rem;
+
+    padding-top: 8rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.c-solution-categories__title {
+    margin: 0;
+    font-size: 3.2rem;
+    line-height: 1.15;
+    font-weight: 800;
+}
+
+.c-solution-categories__grid {
+    display: grid;
+    gap: 2.4rem;
+}
+
+@include mq-up(md) {
+    .c-solution-categories__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .c-category-card--tall {
+        grid-row: span 2;
+    }
+}
+
+@include mq-up(xl) {
+    .c-solution-categories__grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-rows: repeat(2, 40.4rem);
+        grid-template-areas:
+            "electric garden garden accessory"
+            "clean clean hand accessory";
+    }
+
+    .c-category-card {
+        height: 100%;
+        min-height: 0;
+    }
+
+    .c-category-card--elektricke-naradie {
+        grid-area: electric;
+    }
+
+    .c-category-card--zahrada-a-les {
+        grid-area: garden;
+    }
+
+    .c-category-card--cistenie-a-upratovanie {
+        grid-area: clean;
+    }
+
+    .c-category-card--rucne-naradie {
+        grid-area: hand;
+    }
+
+    .c-category-card--prislusenstvo {
+        grid-area: accessory;
+    }
+}
