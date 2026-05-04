@@ -9,29 +9,23 @@
 
     min-height: var(--banner-min-height);
 
-    &__overlay {
-        background: linear-gradient(30.33deg, rgba(0, 0, 0, 0.64) 24.32%, rgba(0, 0, 0, 0) 52.32%);
+    &__title {
+        width: auto;
+        max-width: 15ch;
     }
 
-    &__content {
-        &__title {
-            width: auto;
-            max-width: 15ch;
-        }
+    &__description {
+        width: auto;
+        letter-spacing: 0;
+        vertical-align: middle;
+    }
 
-        &__description {
-            width: auto;
-            letter-spacing: 0;
-            vertical-align: middle;
-
-            &-highlight {
-                font-size: 1.4rem;
-                font-weight: 800;
-                line-height: 1.4;
-                letter-spacing: 0;
-                vertical-align: middle;
-            }
-        }
+    &__description-highlight {
+        font-size: 1.4rem;
+        font-weight: 800;
+        line-height: 1.4;
+        letter-spacing: 0;
+        vertical-align: middle;
     }
 
     @include mq-up(sm) {
@@ -40,8 +34,6 @@
         --offer-card-content-gap: var(--space-md);
         --offer-card-title-size: 4rem;
         --offer-card-radius: var(--r-md);
-
-        border-radius: var(--r-md);
     }
 
     @include mq-up(md) {
@@ -50,11 +42,6 @@
         --offer-card-content-gap: var(--space-lg);
         --offer-card-title-size: 4.6rem;
         --offer-card-title-line-height: 1.15;
-        --offer-card-button-text-size: 1.6rem;
-
-        &__overlay {
-            background: linear-gradient(85.28deg, rgba(0, 0, 0, 0.64) 22.49%, rgba(0, 0, 0, 0) 59.21%);
-        }
     }
 
     @include mq-up(lg) {
@@ -67,17 +54,13 @@
         --offer-card-button-min-height: 5.2rem;
         --offer-card-button-padding: 1.6rem 2rem;
 
-        border-radius: var(--r-md);
+        &__title {
+            width: 52rem;
+            max-width: 52rem;
+        }
 
-        &__content {
-            &__title {
-                width: 52rem;
-                max-width: 52rem;
-            }
-
-            &__button {
-                width: 24.2rem;
-            }
+        &__button {
+            width: 24.2rem;
         }
     }
 }

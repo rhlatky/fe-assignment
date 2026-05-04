@@ -21,6 +21,4 @@ export const renderSolutionCta = (ctaBanner, onAction) =>
         ctaText: ctaBanner.ctaText,
         onAction,
         imageSrc: tanjnaPonukaImage,
-        textClass: "sc-text",
-        iconClass: "sc-icon",
     });

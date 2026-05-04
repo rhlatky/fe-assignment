@@ -64,3 +64,10 @@ h6 {
         max-width: 132rem;
     }
 }
+
+@include mq-down(sm) {
+    .l-container {
+        padding: 0;
+        margin: 0 auto;
+    }
+}

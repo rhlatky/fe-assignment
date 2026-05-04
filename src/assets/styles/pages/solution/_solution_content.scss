@@ -25,10 +25,3 @@
         }
     }
 }
-
-@include mq-down(sm) {
-    .c-solution-content__cta {
-        width: calc(100% + (var(--s-container-padding) * 2));
-        margin-left: calc(var(--s-container-padding) * -1);
-    }
-}

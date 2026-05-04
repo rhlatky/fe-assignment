@@ -11,6 +11,4 @@ export const renderSolutionBanner = (banner, onAction) =>
         ctaText: banner.ctaText,
         onAction,
         imageSrc: bannerImage,
-        textClass: "sb-text",
-        iconClass: "sb-icon",
     });
