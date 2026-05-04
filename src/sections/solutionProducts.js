@@ -10,7 +10,7 @@ const PRODUCT_IMAGES_BY_ID = {
 
 const getProductImage = (product) => PRODUCT_IMAGES_BY_ID[product?.id] ?? null;
 
-export const renderSolutionProducts = (products = []) => {
+export const renderSolutionProducts = (products = [], onAddToCart) => {
     if (!products.length) {
         return html`<div class="c-solution-products c-solution-products--empty">
             <p class="c-solution-products__empty">Produkty nie sú dostupné.</p>
@@ -19,7 +19,7 @@ export const renderSolutionProducts = (products = []) => {
 
     return html`
         <section class="c-solution-products" aria-label="Produkty">
-            ${products.map((product) => renderProductCard(product, getProductImage(product)))}
+            ${products.map((product) => renderProductCard(product, getProductImage(product), onAddToCart))}
         </section>
     `;
 };

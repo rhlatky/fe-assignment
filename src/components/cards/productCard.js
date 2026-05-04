@@ -35,6 +35,13 @@ const normalizeQuantity = (event) => {
     event.currentTarget.value = clampQuantity(event.currentTarget.value);
 };
 
+const getCurrentQuantity = (event) => {
+    const card = event.currentTarget.closest(".c-product-card");
+    const input = card?.querySelector(".c-product-card__quantity-input");
+
+    return clampQuantity(input?.value ?? 1);
+};
+
 const renderStars = (rating = 0) => {
     const safeRating = Math.max(0, Math.min(5, Number(rating) || 0));
 
@@ -111,7 +118,7 @@ const renderOriginalPrice = (price, currency) =>
 const renderVatPrice = (price, currency) =>
     price ? html`<div class="c-product-card__price-vat">${formatPrice(price, currency)} bez DPH</div>` : html``;
 
-export const renderProductCard = (product, imageSrc) => {
+export const renderProductCard = (product, imageSrc, onAddToCart) => {
     const {
         name,
         sku,
@@ -185,7 +192,11 @@ export const renderProductCard = (product, imageSrc) => {
                     </button>
                 </div>
 
-                <button class="c-product-card__button" type="button">
+                <button
+                    class="c-product-card__button"
+                    type="button"
+                    @click=${(event) => onAddToCart?.(product, getCurrentQuantity(event))}
+                >
                     ${renderCartIcon()}
                     <span class="c-product-card__button-label">Do košíka</span>
                 </button>

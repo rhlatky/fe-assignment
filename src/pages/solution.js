@@ -9,16 +9,55 @@ import { renderSolutionProducts } from "../sections/solutionProducts.js";
  * Solution Page
  */
 
+let notificationTimerId;
+
+const hideNotification = () => {
+    const notification = document.querySelector(".c-solution-notification");
+
+    if (!notification) {
+        return;
+    }
+
+    notification.classList.remove("is-visible", "is-success", "is-warning");
+    notification.textContent = "";
+};
+
+const showNotification = (type, message) => {
+    const notification = document.querySelector(".c-solution-notification");
+
+    if (!notification) {
+        return;
+    }
+
+    window.clearTimeout(notificationTimerId);
+
+    notification.textContent = message;
+    notification.classList.remove("is-success", "is-warning");
+    notification.classList.add("is-visible", type === "warning" ? "is-warning" : "is-success");
+
+    notificationTimerId = window.setTimeout(hideNotification, 3000);
+};
+
 // CTA button click handler
 const handleCtaClick = () => {
-    console.log("CTA button clicked");
     // TODO: Implement email form/modal
 };
 
 // Banner button click handler
 const handleBannerClick = () => {
-    console.log("Banner button clicked");
     // TODO: Navigate to products or filter
+};
+
+const handleAddToCart = (product, quantity) => {
+    if (quantity > 10) {
+        showNotification("warning", "Maximálne množstvo je 10 kusov.");
+        return;
+    }
+
+    const productName = product?.name ?? "Produkt";
+    const itemLabel = quantity === 1 ? "kus" : quantity < 5 ? "kusy" : "kusov";
+
+    showNotification("success", `Do košíka bolo pridaných ${quantity} ${itemLabel} produktu ${productName}.`);
 };
 
 // Main page template
@@ -27,13 +66,10 @@ export const renderSolutionPage = (data) => {
         return html`<div class="l-solution">Loading...</div>`;
     }
 
-    console.log("data.banner:\n", data.banner);
-    console.log("data.ctaBanner:\n", data.ctaBanner);
-    console.log("data.products:\n", data.products);
-    console.log("data.categories:\n", data.categories);
-
     return html`
         <div class="l-solution">
+            <div class="c-solution-notification" aria-live="polite" aria-atomic="true"></div>
+
             <div class="l-solution__banner">
                 <div class="l-container l-container--flush-mobile">
                     ${data.banner ? renderSolutionBanner(data.banner, handleBannerClick) : html``}
@@ -48,7 +84,7 @@ export const renderSolutionPage = (data) => {
                         </div>
 
                         <div class="c-solution-content__products">
-                            ${renderSolutionProducts(data.products)}
+                            ${renderSolutionProducts(data.products, handleAddToCart)}
                         </div>
                     </div>
                 </div>
