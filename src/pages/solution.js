@@ -2,6 +2,7 @@ import { html } from "lit-html";
 import { loadData } from "../dataLoader.js";
 import { renderSolutionBanner } from "../sections/solutionBanner.js";
 import { renderSolutionCta } from "../sections/solutionCta.js";
+import { renderSolutionProducts } from "../sections/solutionProducts.js";
 
 /**
  * Solution Page
@@ -45,7 +46,9 @@ export const renderSolutionPage = (data) => {
                             ${data.ctaBanner ? renderSolutionCta(data.ctaBanner, handleCtaClick) : html``}
                         </div>
 
-                        <div class="c-solution-content__products"></div>
+                        <div class="c-solution-content__products">
+                            ${renderSolutionProducts(data.products)}
+                        </div>
                     </div>
                 </div>
             </div>

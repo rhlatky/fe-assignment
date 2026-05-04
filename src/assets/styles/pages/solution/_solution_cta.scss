@@ -1,12 +1,16 @@
 @use "./../../init" as *;
 
 .c-solution-cta {
+    --cta-min-height: 54rem;
+    --cta-max-height: 54rem;
     --offer-card-padding: 0 var(--space-md) var(--space-md);
     --offer-card-content-max-width: 42rem;
     --offer-card-image-position: 60%;
 
     width: 100%;
-    height: 54rem;
+    height: 100%;
+    min-height: var(--cta-min-height);
+    max-height: var(--cta-max-height);
 
     &__description {
         strong {
@@ -30,8 +34,15 @@
     }
 
     @include mq-up(lg) {
+        max-width: 64rem;
+        margin-inline: auto;
+    }
+
+    @media (min-width: 1360px) {
         --offer-card-description-max-width: 45rem;
 
         width: 64rem;
+        max-width: none;
+        margin-inline: 0;
     }
 }

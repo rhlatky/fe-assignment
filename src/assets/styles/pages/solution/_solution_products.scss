@@ -1,0 +1,51 @@
+@use "./../../init" as *;
+
+.c-solution-products {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 2.4rem;
+    column-gap: 2.4rem;
+    justify-items: center;
+}
+
+.c-solution-products > * {
+    width: 100%;
+    max-width: 31.6rem;
+}
+
+.c-solution-products__empty {
+    margin: 0;
+    padding: var(--space-lg);
+    font-size: 1.6rem;
+    line-height: 1.4;
+    text-align: center;
+    background: #fff;
+    border: 0.1rem solid #f1f0f6;
+    border-radius: var(--r-md);
+}
+
+.c-product-card {
+    max-width: 100%;
+
+    .c-product-card__image-frame {
+        max-height: 21.5rem;
+    }
+}
+
+@include mq-up(md) {
+    .c-solution-products > * {
+        min-width: 31.6rem;
+    }
+
+    .c-solution-products {
+        grid-template-columns: repeat(2, minmax(0, 31.6rem));
+        justify-content: center;
+        justify-items: stretch;
+    }
+}
+
+@media (min-width: 1360px) {
+    .c-solution-products {
+        justify-content: end;
+    }
+}

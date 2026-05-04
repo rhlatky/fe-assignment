@@ -1,0 +1,32 @@
+.c-product-card__badges {
+    position: absolute;
+    top: var(--space-sm);
+    left: var(--space-sm);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    z-index: 1;
+}
+
+.c-product-card__badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.4rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    background: #070216;
+    border-radius: var(--r-sm);
+}
+
+.c-product-card__badge--discount {
+    color: #fff;
+    background: #7d2f78;
+}
+
+.c-product-card__badge--new {
+    color: #fff;
+    background: #149721;
+}

@@ -2,12 +2,15 @@
 
 .c-solution-banner {
     --banner-min-height: 42rem;
+    --banner-max-height: 42rem;
     --offer-card-padding: var(--space-md);
     --offer-card-content-max-width: 45rem;
     --offer-card-content-gap: 2rem;
     --offer-card-image-position: 35%;
 
+    height: 100%;
     min-height: var(--banner-min-height);
+    max-height: var(--banner-max-height);
 
     &__title {
         width: auto;
@@ -30,6 +33,7 @@
 
     @include mq-up(sm) {
         --banner-min-height: 48rem;
+        --banner-max-height: 48rem;
         --offer-card-padding: var(--space-lg) var(--space-md);
         --offer-card-content-gap: var(--space-md);
         --offer-card-title-size: 4rem;
@@ -38,6 +42,7 @@
 
     @include mq-up(md) {
         --banner-min-height: 52rem;
+        --banner-max-height: 52rem;
         --offer-card-padding: calc(var(--space-xl) + var(--space-sm)) var(--space-xl);
         --offer-card-content-gap: var(--space-lg);
         --offer-card-title-size: 4.6rem;
@@ -46,6 +51,7 @@
 
     @include mq-up(lg) {
         --banner-min-height: 56.9rem;
+        --banner-max-height: 56.9rem;
         --offer-card-padding: 12.8rem 9.7rem;
         --offer-card-content-gap: var(--space-lg);
         --offer-card-description-max-width: 52rem;

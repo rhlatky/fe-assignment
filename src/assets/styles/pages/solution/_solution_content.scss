@@ -16,12 +16,25 @@
         min-width: 0;
     }
 
-    @include mq-up(lg) {
+    @media (min-width: 1360px) {
         flex-direction: row;
         gap: 0 var(--space-md);
 
         &__cta {
             width: 64rem;
+            flex-shrink: 0;
+        }
+
+        &__products {
+            width: 100%;
+        }
+    }
+}
+
+@media (min-width: 1360px) {
+    .l-solution__content {
+        .l-container.is-shorter {
+            max-width: 136rem;
         }
     }
 }

@@ -1,0 +1,27 @@
+.c-product-card__rating {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    min-width: 0;
+}
+
+.c-product-card__stars {
+    display: flex;
+    gap: 0.2rem;
+    align-items: center;
+    color: #f1f0f6;
+}
+
+.c-product-card__star {
+    font-size: 1.6rem;
+    line-height: 1;
+}
+
+.c-product-card__star.is-filled {
+    color: #f5d40e;
+}
+
+.c-product-card__reviews {
+    font-size: 1.2rem;
+    color: var(--pc-muted);
+}
