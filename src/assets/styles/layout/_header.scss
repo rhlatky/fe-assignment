@@ -28,12 +28,10 @@
             transition: color 0.2s ease;
 
             &:hover {
-                color: var(--c-white);
                 text-decoration: underline;
             }
 
             &.is-active {
-                color: var(--c-white);
                 text-decoration: underline;
             }
         }

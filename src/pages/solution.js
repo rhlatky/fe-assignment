@@ -7,16 +7,6 @@ import { renderSolutionCta } from "../sections/solutionCta.js";
 import { renderSolutionModal } from "../sections/solutionModal.js";
 import { renderSolutionProducts } from "../sections/solutionProducts.js";
 
-/**
- * Solution Page
- */
-
-let notificationTimerId;
-let lastModalTrigger;
-let solutionPageData = null;
-let isModalOpen = false;
-let isFormSubmitting = false;
-
 const DEFAULT_MODAL_FORM_VALUES = {
     email: "",
     fullName: "",
@@ -24,41 +14,91 @@ const DEFAULT_MODAL_FORM_VALUES = {
     source: "Priamo z vášho webu",
 };
 
-let modalFormValues = { ...DEFAULT_MODAL_FORM_VALUES };
-let modalFormErrors = {};
-let modalFormTouched = {};
+const createInitialPageState = () => ({
+    data: null,
+    notification: {
+        isVisible: false,
+        type: "success",
+        message: "",
+    },
+    modal: {
+        isOpen: false,
+        isSubmitting: false,
+        values: { ...DEFAULT_MODAL_FORM_VALUES },
+        errors: {},
+        touched: {},
+    },
+});
 
-const handleModalEscape = (event) => {
-    if (event.key === "Escape") {
-        hideModal();
-    }
-};
+let notificationTimerId;
+let lastModalTrigger;
+let pageState = createInitialPageState();
 
-const rerenderSolutionPage = () => {
-    const main = document.querySelector(".l-page__main");
+const getPageRoot = () => document.querySelector(".l-page__main");
 
-    if (!main || !solutionPageData) {
-        return;
-    }
+const getProductsSection = () => document.querySelector("#solution-products");
 
-    render(renderSolutionPage(solutionPageData), main);
-    syncModalEffects();
-};
+const resetModalFormState = () => ({
+    isOpen: false,
+    isSubmitting: false,
+    values: { ...DEFAULT_MODAL_FORM_VALUES },
+    errors: {},
+    touched: {},
+});
 
-const syncModalEffects = () => {
-    document.body.classList.toggle("has-solution-modal-open", isModalOpen);
+const syncSolutionPageEffects = () => {
+    document.body.classList.toggle("has-solution-modal-open", pageState.modal.isOpen);
     document.removeEventListener("keydown", handleModalEscape);
 
-    if (isModalOpen) {
+    if (pageState.modal.isOpen) {
         document.addEventListener("keydown", handleModalEscape);
     }
 };
 
-const resetModalFormState = () => {
-    modalFormValues = { ...DEFAULT_MODAL_FORM_VALUES };
-    modalFormErrors = {};
-    modalFormTouched = {};
-    isFormSubmitting = false;
+const rerenderSolutionPage = () => {
+    const pageRoot = getPageRoot();
+
+    if (!pageRoot || !pageState.data) {
+        return;
+    }
+
+    render(renderSolutionPage(pageState.data), pageRoot);
+    syncSolutionPageEffects();
+};
+
+const setNotificationState = ({ isVisible, message = "", type = "success" }) => {
+    pageState = {
+        ...pageState,
+        notification: {
+            isVisible,
+            message,
+            type,
+        },
+    };
+};
+
+const hideNotification = () => {
+    window.clearTimeout(notificationTimerId);
+    setNotificationState({ isVisible: false });
+    rerenderSolutionPage();
+};
+
+const showNotification = (type, message) => {
+    window.clearTimeout(notificationTimerId);
+    setNotificationState({
+        isVisible: true,
+        type: type === "warning" ? "warning" : "success",
+        message,
+    });
+    rerenderSolutionPage();
+    notificationTimerId = window.setTimeout(hideNotification, 3000);
+};
+
+const setModalState = (nextModalState) => {
+    pageState = {
+        ...pageState,
+        modal: nextModalState,
+    };
 };
 
 const normalizeEmailValue = (email = "") => email.trim();
@@ -80,7 +120,7 @@ const isValidPhoneFormat = (phone = "") => {
     return digits.length >= 9 && digits.length <= 15;
 };
 
-const validateModalField = (fieldName, values = modalFormValues) => {
+const validateModalField = (fieldName, values = pageState.modal.values) => {
     const email = normalizeEmailValue(values.email);
     const fullName = values.fullName.trim();
     const phone = normalizePhoneValue(values.phone);
@@ -117,7 +157,7 @@ const validateModalField = (fieldName, values = modalFormValues) => {
     }
 };
 
-const validateModalForm = (values = modalFormValues) =>
+const validateModalForm = (values = pageState.modal.values) =>
     ["email", "fullName", "phone"].reduce((errors, fieldName) => {
         const error = validateModalField(fieldName, values);
 
@@ -128,61 +168,47 @@ const validateModalForm = (values = modalFormValues) =>
         return errors;
     }, {});
 
-const hideNotification = () => {
-    const notification = document.querySelector(".c-solution-notification");
-
-    if (!notification) {
-        return;
-    }
-
-    notification.classList.remove("is-visible", "is-success", "is-warning");
-    notification.textContent = "";
-};
-
-const showNotification = (type, message) => {
-    const notification = document.querySelector(".c-solution-notification");
-
-    if (!notification) {
-        return;
-    }
-
-    window.clearTimeout(notificationTimerId);
-
-    notification.textContent = message;
-    notification.classList.remove("is-success", "is-warning");
-    notification.classList.add("is-visible", type === "warning" ? "is-warning" : "is-success");
-
-    notificationTimerId = window.setTimeout(hideNotification, 3000);
-};
-
-const hideModal = () => {
-    isModalOpen = false;
-    isFormSubmitting = false;
-    rerenderSolutionPage();
-    lastModalTrigger?.focus();
-};
-
 const focusModalCloseButton = () => {
     window.requestAnimationFrame(() => {
         document.querySelector(".c-solution-modal__close")?.focus();
     });
 };
 
+const handleModalEscape = (event) => {
+    if (event.key === "Escape") {
+        hideModal();
+    }
+};
+
+const hideModal = () => {
+    setModalState({
+        ...pageState.modal,
+        isOpen: false,
+        isSubmitting: false,
+    });
+    rerenderSolutionPage();
+    lastModalTrigger?.focus();
+};
+
 const showModal = () => {
-    isModalOpen = true;
+    setModalState({
+        ...pageState.modal,
+        isOpen: true,
+    });
     rerenderSolutionPage();
     focusModalCloseButton();
 };
 
-// CTA button click handler
 const handleCtaClick = (event) => {
     lastModalTrigger = event.currentTarget;
     showModal();
 };
 
-// Banner button click handler
 const handleBannerClick = () => {
-    // TODO: Navigate to products or filter
+    getProductsSection()?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+    });
 };
 
 const handleAddToCart = (product, quantity) => {
@@ -194,7 +220,10 @@ const handleAddToCart = (product, quantity) => {
     const productName = product?.name ?? "Produkt";
     const itemLabel = quantity === 1 ? "kus" : quantity < 5 ? "kusy" : "kusov";
 
-    showNotification("success", `Do košíka bolo pridaných ${quantity} ${itemLabel} produktu ${productName}.`);
+    showNotification(
+        "success",
+        `Do košíka bolo pridaných ${quantity} ${itemLabel} produktu ${productName}.`
+    );
 };
 
 const handleModalBackdropClick = (event) => {
@@ -205,116 +234,151 @@ const handleModalBackdropClick = (event) => {
 
 const handleModalInput = (event) => {
     const { name, value } = event.currentTarget;
-
-    modalFormValues = {
-        ...modalFormValues,
+    const nextValues = {
+        ...pageState.modal.values,
         [name]: value,
     };
+    const nextErrors = { ...pageState.modal.errors };
 
-    if (modalFormTouched[name]) {
-        const nextError = validateModalField(name, modalFormValues);
+    if (pageState.modal.touched[name]) {
+        const nextError = validateModalField(name, nextValues);
 
-        modalFormErrors = {
-            ...modalFormErrors,
-            [name]: nextError,
-        };
-
-        if (!nextError) {
-            delete modalFormErrors[name];
+        if (nextError) {
+            nextErrors[name] = nextError;
+        } else {
+            delete nextErrors[name];
         }
     }
 
+    setModalState({
+        ...pageState.modal,
+        values: nextValues,
+        errors: nextErrors,
+    });
     rerenderSolutionPage();
 };
 
 const handleModalBlur = (event) => {
     const { name } = event.currentTarget;
-    const nextError = validateModalField(name, modalFormValues);
+    const nextErrors = { ...pageState.modal.errors };
+    const nextError = validateModalField(name, pageState.modal.values);
 
-    modalFormTouched = {
-        ...modalFormTouched,
-        [name]: true,
-    };
-
-    modalFormErrors = {
-        ...modalFormErrors,
-        [name]: nextError,
-    };
-
-    if (!nextError) {
-        delete modalFormErrors[name];
+    if (nextError) {
+        nextErrors[name] = nextError;
+    } else {
+        delete nextErrors[name];
     }
 
+    setModalState({
+        ...pageState.modal,
+        touched: {
+            ...pageState.modal.touched,
+            [name]: true,
+        },
+        errors: nextErrors,
+    });
     rerenderSolutionPage();
 };
 
 const handleModalSubmit = async (event) => {
     event.preventDefault();
 
-    modalFormTouched = {
-        email: true,
-        fullName: true,
-        phone: true,
+    const normalizedValues = {
+        ...pageState.modal.values,
+        email: normalizeEmailValue(pageState.modal.values.email),
+        fullName: pageState.modal.values.fullName.trim(),
+        phone: normalizePhoneValue(pageState.modal.values.phone),
     };
+    const nextErrors = validateModalForm(normalizedValues);
 
-    modalFormValues = {
-        ...modalFormValues,
-        email: normalizeEmailValue(modalFormValues.email),
-        fullName: modalFormValues.fullName.trim(),
-        phone: normalizePhoneValue(modalFormValues.phone),
-    };
+    setModalState({
+        ...pageState.modal,
+        values: normalizedValues,
+        touched: {
+            email: true,
+            fullName: true,
+            phone: true,
+        },
+        errors: nextErrors,
+    });
 
-    modalFormErrors = validateModalForm(modalFormValues);
-
-    if (Object.keys(modalFormErrors).length > 0) {
+    if (Object.keys(nextErrors).length > 0) {
         rerenderSolutionPage();
         return;
     }
 
-    isFormSubmitting = true;
+    setModalState({
+        ...pageState.modal,
+        values: normalizedValues,
+        touched: {
+            email: true,
+            fullName: true,
+            phone: true,
+        },
+        errors: {},
+        isSubmitting: true,
+    });
     rerenderSolutionPage();
 
-    const emailValidationResult = await validateEmail(modalFormValues.email);
-
-    isFormSubmitting = false;
+    const emailValidationResult = await validateEmail(normalizedValues.email);
 
     if (!emailValidationResult?.success) {
-        modalFormTouched = {
-            ...modalFormTouched,
-            email: true,
-        };
-
-        modalFormErrors = {
-            ...modalFormErrors,
-            email: emailValidationResult?.message ?? "E-mail sa nepodarilo overiť.",
-        };
-
+        setModalState({
+            ...pageState.modal,
+            isSubmitting: false,
+            errors: {
+                ...pageState.modal.errors,
+                email: emailValidationResult?.message ?? "E-mail sa nepodarilo overiť.",
+            },
+            touched: {
+                ...pageState.modal.touched,
+                email: true,
+            },
+        });
         rerenderSolutionPage();
         return;
     }
 
-    resetModalFormState();
-    isModalOpen = false;
+    setModalState(resetModalFormState());
     rerenderSolutionPage();
     showNotification("success", "Formulár bol úspešne odoslaný.");
     lastModalTrigger?.focus();
 };
 
-// Main page template
 export const renderSolutionPage = (data) => {
     if (!data) {
         return html`<div class="l-solution">Loading...</div>`;
     }
 
+    const notificationClasses = [
+        "c-solution-notification",
+        pageState.notification.isVisible ? "is-visible" : "",
+        pageState.notification.isVisible
+            ? pageState.notification.type === "warning"
+                ? "is-warning"
+                : "is-success"
+            : "",
+    ]
+        .filter(Boolean)
+        .join(" ");
+
     return html`
         <div class="l-solution">
-            <div class="c-solution-notification" aria-live="polite" aria-atomic="true"></div>
+            <div
+                class=${notificationClasses}
+                aria-live="polite"
+                aria-atomic="true"
+                ?hidden=${!pageState.notification.isVisible}
+            >
+                ${pageState.notification.message}
+            </div>
+
             ${renderSolutionModal({
-                isOpen: isModalOpen,
-                values: modalFormValues,
-                errors: modalFormErrors,
-                touched: modalFormTouched,
-                isSubmitting: isFormSubmitting,
+                isOpen: pageState.modal.isOpen,
+                values: pageState.modal.values,
+                errors: pageState.modal.errors,
+                touched: pageState.modal.touched,
+                isSubmitting: pageState.modal.isSubmitting,
                 onClose: hideModal,
                 onBackdropClick: handleModalBackdropClick,
                 onInput: handleModalInput,
@@ -332,10 +396,12 @@ export const renderSolutionPage = (data) => {
                 <div class="l-container is-shorter">
                     <div class="c-solution-content">
                         <div class="c-solution-content__cta">
-                            ${data.ctaBanner ? renderSolutionCta(data.ctaBanner, handleCtaClick) : html``}
+                            ${data.ctaBanner
+                                ? renderSolutionCta(data.ctaBanner, handleCtaClick)
+                                : html``}
                         </div>
 
-                        <div class="c-solution-content__products">
+                        <div class="c-solution-content__products" id="solution-products">
                             ${renderSolutionProducts(data.products, handleAddToCart)}
                         </div>
                     </div>
@@ -343,21 +409,25 @@ export const renderSolutionPage = (data) => {
             </div>
 
             <div class="l-solution__categories">
-                <div class="l-container">
-                    ${renderSolutionCategories(data.categories)}
-                </div>
+                <div class="l-container">${renderSolutionCategories(data.categories)}</div>
             </div>
         </div>
     `;
 };
 
-/**
- * Load data and render the solution page
- */
 export const loadAndRenderSolutionPage = async () => {
     try {
-        solutionPageData = await loadData();
-        return renderSolutionPage(solutionPageData);
+        window.clearTimeout(notificationTimerId);
+        document.removeEventListener("keydown", handleModalEscape);
+        document.body.classList.remove("has-solution-modal-open");
+
+        pageState = createInitialPageState();
+        pageState = {
+            ...pageState,
+            data: await loadData(),
+        };
+
+        return renderSolutionPage(pageState.data);
     } catch (error) {
         return html`<div class="l-solution">Error loading data: ${error.message}</div>`;
     }

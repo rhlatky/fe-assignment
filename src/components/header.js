@@ -9,8 +9,8 @@ import logoSvg from "../assets/images/logo.svg";
 export const renderHeader = () => {
     const currentRoute = router.getCurrentRoute();
 
-    const handleNavClick = (e, route) => {
-        e.preventDefault();
+    const handleNavClick = (event, route) => {
+        event.preventDefault();
         router.navigate(route);
     };
 
@@ -34,11 +34,12 @@ export const renderHeader = () => {
                         <a
                             href="/solution"
                             class="c-link ${currentRoute === "/solution" ? "is-active" : ""}"
-                            @click=${(e) => handleNavClick(e, "/solution")}
+                            @click=${(event) => handleNavClick(event, "/solution")}
                         >
                             Solution
                         </a>
                     </nav>
+                </div>
             </div>
         </header>
     `;

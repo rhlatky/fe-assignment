@@ -4,8 +4,8 @@ import { renderProductCard } from "../components/cards/productCard.js";
 import { html } from "lit-html";
 
 const PRODUCT_IMAGES_BY_ID = {
-    "1": dewalt700Image,
-    "2": metabo600Image,
+    1: dewalt700Image,
+    2: metabo600Image,
 };
 
 const getProductImage = (product) => PRODUCT_IMAGES_BY_ID[product?.id] ?? null;
@@ -19,7 +19,9 @@ export const renderSolutionProducts = (products = [], onAddToCart) => {
 
     return html`
         <section class="c-solution-products" aria-label="Produkty">
-            ${products.map((product) => renderProductCard(product, getProductImage(product), onAddToCart))}
+            ${products.map((product) =>
+                renderProductCard(product, getProductImage(product), onAddToCart)
+            )}
         </section>
     `;
 };

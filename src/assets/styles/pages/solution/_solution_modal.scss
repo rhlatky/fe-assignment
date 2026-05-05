@@ -8,14 +8,6 @@
     place-items: center;
     padding: 2.4rem;
     background: rgb(7 2 22 / 48%);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
-
-    &.is-visible {
-        opacity: 1;
-        pointer-events: auto;
-    }
 }
 
 .c-solution-modal__dialog {
@@ -84,10 +76,6 @@
     gap: 0.4rem;
 }
 
-.c-solution-modal__field--full {
-    width: 100%;
-}
-
 .c-solution-modal__label {
     font-size: 1.5rem;
     line-height: 1.5;
@@ -148,10 +136,10 @@
 }
 
 .c-solution-modal__footer {
-    display: inline-flex;
+    display: flex;
+    gap: 2rem;
     justify-content: space-between;
     align-items: center;
-    grid-template-columns: 23.8rem minmax(0, 1fr);
     padding-top: 1rem;
 }
 
@@ -191,7 +179,6 @@
     max-width: 21.9rem;
     font-size: 1.4rem;
     line-height: 1.5;
-    letter-spacing: 0;
     color: #070216;
 }
 
@@ -218,8 +205,7 @@
     }
 
     .c-solution-modal__header,
-    .c-solution-modal__row,
-    .c-solution-modal__footer {
+    .c-solution-modal__row {
         grid-template-columns: 1fr;
     }
 

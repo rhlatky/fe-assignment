@@ -2,6 +2,11 @@ import { CONFIG } from "./config.js";
 
 const CACHE_KEY = "fe_assignment_data_cache";
 const CACHE_TIMESTAMP_KEY = "fe_assignment_data_timestamp";
+const debugLog = (...args) => {
+    if (CONFIG.DEBUG_LOGS) {
+        console.log(...args);
+    }
+};
 
 /**
  * Check if cached data is still valid
@@ -55,25 +60,26 @@ const setCachedData = (data) => {
  * @returns {Promise<Object>} Data object with banner, ctaBanner, products, categories
  */
 export const loadData = async () => {
-    // Check cache first in DEV mode
     if (CONFIG.DEV_MODE && isCacheValid()) {
         const cachedData = getCachedData();
         if (cachedData) {
-            console.log("[Data Loader] Using cached data (DEV mode)");
+            debugLog("[Data Loader] Using cached data");
             return cachedData;
         }
     }
 
-    const mode = CONFIG._TEST_MODE || "static";
+    const mode = CONFIG.TEST_MODE || "static";
     const modeParam = mode === "static" ? "" : `?mode=${mode}`;
+    const fetchJson = (endpoint) =>
+        fetch(`${CONFIG.API_BASE_URL}/${endpoint}${modeParam}`).then((response) => response.json());
 
     try {
-        console.log("[Data Loader] Fetching fresh data from API...");
+        debugLog("[Data Loader] Fetching fresh data from API");
         const [banner, ctaBanner, products, categories] = await Promise.all([
-            fetch(`${CONFIG.API_BASE_URL}/banner${modeParam}`).then((r) => r.json()),
-            fetch(`${CONFIG.API_BASE_URL}/cta-banner${modeParam}`).then((r) => r.json()),
-            fetch(`${CONFIG.API_BASE_URL}/products${modeParam}`).then((r) => r.json()),
-            fetch(`${CONFIG.API_BASE_URL}/categories${modeParam}`).then((r) => r.json()),
+            fetchJson("banner"),
+            fetchJson("cta-banner"),
+            fetchJson("products"),
+            fetchJson("categories"),
         ]);
 
         const data = {
@@ -83,7 +89,6 @@ export const loadData = async () => {
             categories: categories.data,
         };
 
-        // Cache data in DEV mode
         setCachedData(data);
 
         return data;
@@ -99,22 +104,19 @@ export const loadData = async () => {
 export const clearCache = () => {
     localStorage.removeItem(CACHE_KEY);
     localStorage.removeItem(CACHE_TIMESTAMP_KEY);
-    console.log("[Data Loader] Cache cleared");
+    debugLog("[Data Loader] Cache cleared");
 };
 
 /**
  * Log data source info to console
  */
 export const logDataMode = () => {
-    console.log(`[Data Loader] API: ${CONFIG.API_BASE_URL}`);
     if (CONFIG.DEV_MODE) {
-        console.log(
-            `[Data Loader] DEV mode: ON (cache duration: ${CONFIG.DEV_CACHE_DURATION / 1000 / 60} minutes)`
-        );
-        console.log(`[Data Loader] To clear cache, run: clearCache()`);
-        // Make clearCache available in console
         window.clearCache = clearCache;
     } else {
-        console.log(`[Data Loader] DEV mode: OFF`);
+        delete window.clearCache;
     }
+
+    debugLog(`[Data Loader] API: ${CONFIG.API_BASE_URL}`);
+    debugLog(`[Data Loader] DEV mode: ${CONFIG.DEV_MODE ? "ON" : "OFF"}`);
 };

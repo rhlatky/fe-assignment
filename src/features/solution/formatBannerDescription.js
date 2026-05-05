@@ -8,6 +8,7 @@ export const formatBannerDescription = (description) => {
     return highlightText(
         description,
         BANNER_DESCRIPTION_HIGHLIGHT_REGEX,
-        (highlightedText) => html`<span class="c-solution-banner__description-highlight">${highlightedText}</span>`
+        (highlightedText) =>
+            html`<span class="c-solution-banner__description-highlight">${highlightedText}</span>`
     );
 };

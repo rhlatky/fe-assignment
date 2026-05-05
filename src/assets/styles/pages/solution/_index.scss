@@ -8,10 +8,10 @@
 
 .l-solution {
     &__banner {
-        margin-bottom: 0;
+        margin-bottom: 2.4rem;
     }
 
-    @include mq-up(sm) {
+    @include mq-up(xl) {
         &__banner {
             margin-bottom: 10rem;
         }

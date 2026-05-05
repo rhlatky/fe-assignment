@@ -3,7 +3,7 @@
 .c-solution-categories {
     --category-card-height: 40.4rem;
 
-    padding-top: 8rem;
+    margin-top: 2.4rem;
     display: flex;
     flex-direction: column;
     gap: var(--space-md);
@@ -28,6 +28,12 @@
 
     .c-category-card--tall {
         grid-row: span 2;
+    }
+}
+
+@include mq-up(lg) {
+    .c-solution-categories {
+        margin-top: 8rem;
     }
 }
 

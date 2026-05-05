@@ -15,7 +15,9 @@
     box-shadow: 0 0.4rem 0.8rem rgb(0 0 0 / 12%);
 }
 
-.c-product-card__media { position: relative; }
+.c-product-card__media {
+    position: relative;
+}
 
 .c-product-card__image-frame {
     overflow: hidden;
@@ -133,7 +135,6 @@
     color: #149721;
     text-decoration: underline;
 }
-
 
 @media (hover: hover) and (pointer: fine) {
     .c-product-card__actions {
