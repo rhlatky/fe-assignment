@@ -1,5 +1,6 @@
 import { html } from "lit-html";
 import arrowRightIcon from "../../assets/icons/ArrowRight.svg";
+import { renderIcon } from "../renderIcon.js";
 
 const renderOfferTitle = (title, titleTag, className) =>
     titleTag === "h1"
@@ -39,12 +40,7 @@ export const renderOfferCard = ({
                     @click=${onAction}
                 >
                     <span class="c-offer-card__text">${ctaText}</span>
-                    <img
-                        class="c-offer-card__icon"
-                        src=${arrowRightIcon}
-                        alt=""
-                        aria-hidden="true"
-                    />
+                    ${renderIcon(arrowRightIcon, "c-offer-card__icon")}
                 </button>
             </div>
         </div>

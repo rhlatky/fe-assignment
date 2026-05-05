@@ -4,6 +4,7 @@ import heartIcon from "../../assets/icons/heart-icon.svg";
 import minusIcon from "../../assets/icons/minus-sign.svg";
 import plusIcon from "../../assets/icons/plus-sign.svg";
 import scaleIcon from "../../assets/icons/scale-icon.svg";
+import { renderIcon } from "../renderIcon.js";
 
 const priceFormatter = new Intl.NumberFormat("sk-SK", {
     minimumFractionDigits: 0,
@@ -65,21 +66,6 @@ const formatPrice = (price, currency = "€") => {
     return `${formattedPrice} ${currency}`;
 };
 
-const renderCompareIcon = () =>
-    html`<img class="c-product-card__action-icon" src=${scaleIcon} alt="" aria-hidden="true" />`;
-
-const renderFavoriteIcon = () =>
-    html`<img class="c-product-card__action-icon" src=${heartIcon} alt="" aria-hidden="true" />`;
-
-const renderCartButtonIcon = () =>
-    html`<img class="c-product-card__button-icon" src=${cartIcon} alt="" aria-hidden="true" />`;
-
-const renderMinusButtonIcon = () =>
-    html`<img class="c-product-card__quantity-icon" src=${minusIcon} alt="" aria-hidden="true" />`;
-
-const renderPlusButtonIcon = () =>
-    html`<img class="c-product-card__quantity-icon" src=${plusIcon} alt="" aria-hidden="true" />`;
-
 const renderProductImage = (imageSrc, name) => html`
     <div class="c-product-card__image-frame">
         ${imageSrc
@@ -91,14 +77,14 @@ const renderProductImage = (imageSrc, name) => html`
 const renderProductActions = () => html`
     <div class="c-product-card__actions">
         <button class="c-product-card__action-button" type="button" aria-label="Porovnať produkt">
-            ${renderCompareIcon()}
+            ${renderIcon(scaleIcon, "c-product-card__action-icon")}
         </button>
         <button
             class="c-product-card__action-button"
             type="button"
             aria-label="Pridať do obľúbených"
         >
-            ${renderFavoriteIcon()}
+            ${renderIcon(heartIcon, "c-product-card__action-icon")}
         </button>
     </div>
 `;
@@ -185,7 +171,7 @@ export const renderProductCard = (product, imageSrc, onAddToCart) => {
                         aria-label="Znížiť počet"
                         @click=${(event) => updateQuantity(event, -1)}
                     >
-                        ${renderMinusButtonIcon()}
+                        ${renderIcon(minusIcon, "c-product-card__quantity-icon")}
                     </button>
                     <input
                         class="c-product-card__quantity-input"
@@ -203,7 +189,7 @@ export const renderProductCard = (product, imageSrc, onAddToCart) => {
                         aria-label="Zvýšiť počet"
                         @click=${(event) => updateQuantity(event, 1)}
                     >
-                        ${renderPlusButtonIcon()}
+                        ${renderIcon(plusIcon, "c-product-card__quantity-icon")}
                     </button>
                 </div>
 
@@ -212,7 +198,7 @@ export const renderProductCard = (product, imageSrc, onAddToCart) => {
                     type="button"
                     @click=${(event) => onAddToCart?.(product, getCurrentQuantity(event))}
                 >
-                    ${renderCartButtonIcon()}
+                    ${renderIcon(cartIcon, "c-product-card__button-icon")}
                     <span class="c-product-card__button-label">Do košíka</span>
                 </button>
             </div>

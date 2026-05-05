@@ -1,5 +1,6 @@
 import { html } from "lit-html";
 import arrowRightIcon from "../../assets/icons/ArrowRight.svg";
+import { renderIcon } from "../renderIcon.js";
 
 export const renderCategoryCard = (category, imageSrc, variantClass = "") => {
     const subcategories = category?.subcategories ?? [];
@@ -32,12 +33,8 @@ export const renderCategoryCard = (category, imageSrc, variantClass = "") => {
 
                 <a class="c-category-card__link" href=${category.link}
                     >${category.ctaText}
-                    <img
-                        class="c-category-card__link-arrow"
-                        src=${arrowRightIcon}
-                        alt=""
-                        aria-hidden="true"
-                /></a>
+                    ${renderIcon(arrowRightIcon, "c-category-card__link-arrow")}</a
+                >
             </div>
         </article>
     `;

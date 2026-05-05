@@ -2,6 +2,7 @@ import { html, nothing } from "lit-html";
 import arrowRightShortIcon from "../assets/icons/arrow-right-short.svg";
 import chevronDownIcon from "../assets/icons/CaretDown.svg";
 import closeIcon from "../assets/icons/close.svg";
+import { renderIcon } from "../components/renderIcon.js";
 
 const renderFieldError = (fieldName, errors = {}, touched = {}) => {
     const error = touched[fieldName] ? errors[fieldName] : "";
@@ -42,7 +43,7 @@ export const renderSolutionModal = ({
                     aria-label="Zavrieť okno"
                     @click=${onClose}
                 >
-                    <img src=${closeIcon} alt="" aria-hidden="true" />
+                    ${renderIcon(closeIcon)}
                 </button>
 
                 <div class="c-solution-modal__header">
@@ -134,8 +135,8 @@ export const renderSolutionModal = ({
                         <div class="c-solution-modal__select">
                             <span>${values.source}</span>
                             <span class="c-solution-modal__select-icon"
-                                ><img src=${chevronDownIcon} alt="" aria-hidden="true"
-                            /></span>
+                                >${renderIcon(chevronDownIcon)}</span
+                            >
                         </div>
                     </label>
 
@@ -147,8 +148,8 @@ export const renderSolutionModal = ({
                         >
                             <span>${isSubmitting ? "Odosiela sa..." : "Získať tajnú ponuku"}</span>
                             <span class="c-solution-modal__submit-icon"
-                                ><img src=${arrowRightShortIcon} alt="" aria-hidden="true"
-                            /></span>
+                                >${renderIcon(arrowRightShortIcon)}</span
+                            >
                         </button>
 
                         <p class="c-solution-modal__consent">
